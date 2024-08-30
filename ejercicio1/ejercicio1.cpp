@@ -30,7 +30,7 @@ int main(){
 
 
 
-    delete [] arr;
+    delete []arr;
     return 0;
 }
 void cargarArray(int arr[], int sizeArray){
