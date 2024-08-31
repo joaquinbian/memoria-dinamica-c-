@@ -55,12 +55,10 @@ void cargarListaYContadores(int totalList[], int size, int *contadorPos, int *co
         cout << "Ingresa el numero para la posicion " << i + 1 << " de la lista: ";
         cin >> n;
         if(n > 0){
-            cout <<"positivo";
             //esto va entre parenetesis porque sino *var++ es = a var++, e incrementa
             //la direccion de memoria con aritmetica de punteros, no el valor en si
             (*contadorPos)++;
         } else {
-            cout <<"negtaiovo";
 
             (*contadorNeg)++;
         }
