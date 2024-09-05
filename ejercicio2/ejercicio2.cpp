@@ -43,8 +43,10 @@ int main(){
         } else if(opcion == 3){
             continuar = false;
             break;
+            
         }
 
+        
         continuar = deseasContinuar();
 
         if(continuar) {

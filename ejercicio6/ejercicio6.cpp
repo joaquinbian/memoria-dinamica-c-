@@ -30,6 +30,8 @@ int main(){
     mostrarNumeros(vectorPares, CANTIDAD);
 
 
+    delete [] vectorPares;
+
 
 
     return 0;
