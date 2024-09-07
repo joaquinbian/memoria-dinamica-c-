@@ -17,17 +17,37 @@ Una vez cargados los libros se debe mostrar un menú  con las siguientes opcione
  */
 
 int getCantidadCargaLibros();
+int getCantidadHorasLibro(string libro);
+int *cargarVectorInt(int tam);
 string *cargarLibros(int tam);
-void cargarTiempoLectura(string libros[], int tiemposLectura[], int tam);
+string pedirLibro();
+void cargarTiempoLectura(string libro, string libros[], int tiemposLectura[], int tam);
+void ordernarLibros(string libros[], int tiempoLectura[]);
+void mostrarLibros(string v[], int tam);
 
 int main(){
-
-    int cantidadLibros = getCantidadCargaLibros();
+    int opcion, cantidadLibros, *tiempoLectura = nullptr;
+    string libro;
     
+    cantidadLibros = getCantidadCargaLibros();    
     string *libros = cargarLibros(cantidadLibros);
-    int *tiempoLectura = cargarTiempoLectura(cantidadLibros);
+    //punto a 
+    mostrarLibros(libros, cantidadLibros);
+    //punto b
+    if(tiempoLectura == nullptr){
+        cout << "no hay vector";
+        tiempoLectura = cargarVectorInt(cantidadLibros);
+    } 
+    libro = pedirLibro();
+    cargarTiempoLectura(libro, libros, tiempoLectura, cantidadLibros);
+    
+    //punto 3
+    ordernarLibros(libros, tiempoLectura);
     
 
+
+    delete [] libros;
+    delete [] tiempoLectura;
     return 0;
 }
 
@@ -59,6 +79,53 @@ string *cargarLibros(int tam){
     return v;
 }
 
-int *cargarTiempoLectura(int tam){
+void cargarTiempoLectura(string libro, string libros[], int tiemposLectura[], int tam){
+    
+    for(int i = 0; i < tam; i++){
+        if(libro == libros[i]){
+            tiemposLectura[i] = getCantidadHorasLibro(libro);
+            return;
+        }
+    }
 
+    cout << "No se ha encontrado el libro " << endl;;
 }
+
+string pedirLibro(){
+    string n;
+    cout << "Ingresa el nombre de tu libro que quieres registrar tiempo: ";
+    cin >> n;
+
+
+    return n;
+}
+
+void mostrarLibros(string libros[], int tam){
+    for(int i = 0; i < tam; i++){
+        cout << "Libro " << i + 1 << " -> " << libros[i];
+    }
+}
+
+int *cargarVectorInt(int tam){
+    int *v;
+    v = new int[tam];
+    if(v == nullptr){
+        cout << "NO se pudo asignar memoria";
+        exit(-1);
+    }
+    return v;
+}
+
+
+int getCantidadHorasLibro(string libro){
+    int n;
+
+    do{
+        cout << "Ingrese las horas de lectura para el libro " << libro;
+        cin  >> n;
+    } while(n > 0);
+
+    return n;
+}
+
+void ordernarLibros(string libros[], int tiempoLectura[]){}
