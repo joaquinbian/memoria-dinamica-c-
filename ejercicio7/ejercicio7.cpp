@@ -19,6 +19,7 @@ Una vez cargados los libros se debe mostrar un menú  con las siguientes opcione
 int getCantidadCargaLibros();
 int getCantidadHorasLibro(string libro);
 int *cargarVectorInt(int tam);
+int mostrarMenu();
 
 string *cargarLibros(int tam);
 string *cargarVectorStr(int tam);
@@ -37,21 +38,32 @@ int main(){
     
     cantidadLibros = getCantidadCargaLibros();    
     string *libros = cargarLibros(cantidadLibros);
-    //punto a 
-    mostrarLibros(libros, cantidadLibros);
-    //punto b
-    if(tiempoLectura == nullptr){
-        tiempoLectura = cargarVectorInt(cantidadLibros);
-    } 
-    libro = pedirLibro();
-    cargarTiempoLectura(libro, libros, tiempoLectura, cantidadLibros);
-    
-    for(int i = 0; i < cantidadLibros; i++){
-        cout << tiempoLectura[i] << endl;
-    }
-    //punto 3
-    ordernarLibros(libros, tiempoLectura, cantidadLibros);
-    
+
+    opcion = mostrarMenu();
+    do{
+        if(opcion == 1){
+            mostrarLibros(libros, cantidadLibros);
+        } else if(opcion == 2) {
+                //punto b
+            if(tiempoLectura == nullptr){
+                tiempoLectura = cargarVectorInt(cantidadLibros);
+            } 
+            libro = pedirLibro();
+            cargarTiempoLectura(libro, libros, tiempoLectura, cantidadLibros);
+        } else if(opcion == 3) {
+            
+            //punto 3
+            ordernarLibros(libros, tiempoLectura, cantidadLibros);
+        } else if(opcion == 4){
+            cout << "gracias por haber usado la BIBLIOTECA" << endl;
+            return 1;
+        } else {
+            cout << "Elige una opcion valida (1-4)" << endl;
+        }
+
+        opcion = mostrarMenu();    
+    }while(opcion != 4);
+  
 
 
     delete [] libros;
@@ -142,7 +154,7 @@ int getCantidadHorasLibro(string libro){
     int n;
 
     do{
-        cout << "Ingrese los minutos de lectura para el libro " << libro;
+        cout << "Ingrese los minutos de lectura para el libro " << libro << " ";
         cin  >> n;
     } while(n < 0);
 
@@ -200,4 +212,27 @@ void mostrarLibrosYTiempoLectura(string libros[], int tiempoLectura[], int tam){
         cout << "Tiempo: " << tiempoLectura[i] << " minutos";
         cout << endl;
     }
+}
+
+int mostrarMenu(){
+    int n;
+    cout << endl;
+    cout << "~~~~~~~~~~ Biblioteca ~~~~~~~~~~" << endl;
+    cout << "Ingrese el numero del menu para indicar que accion quieres realizar" << endl;
+
+    do {    
+        //1
+        cout << "1- Listado: Debe listar los libros en el orden en que fueron cargados." << endl;
+        //2
+        cout << "2- Tiempo de lectura: Se solicita el nombre del libro. Si no existe debe mostrar un mensaje aclaratorio. ";
+        cout << "Si el libro existe, ingresar la cantidad de minutos que le llevó su lectura" << endl;
+        //3
+        cout << "3- Ranking: Mostrar los libros ordenados por tiempo de lectura de Mayor a Menor." << endl;
+        //4        
+        cout << "4- Salir: el programa debe salir del programa" << endl;
+
+        cin >> n;
+    }while(n < 0 && n > 4);
+
+    return n;
 }
