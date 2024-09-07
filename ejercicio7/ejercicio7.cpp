@@ -40,7 +40,7 @@ int main(){
     string *libros = cargarLibros(cantidadLibros);
 
     opcion = mostrarMenu();
-    do{
+    while(opcion != 4){
         if(opcion == 1){
             mostrarLibros(libros, cantidadLibros);
         } else if(opcion == 2) {
@@ -54,15 +54,16 @@ int main(){
             
             //punto 3
             ordernarLibros(libros, tiempoLectura, cantidadLibros);
-        } else if(opcion == 4){
+        } 
+        /* else if(opcion == 4){
             cout << "gracias por haber usado la BIBLIOTECA" << endl;
             return 1;
         } else {
             cout << "Elige una opcion valida (1-4)" << endl;
-        }
+        } */
 
         opcion = mostrarMenu();    
-    }while(opcion != 4);
+    }
   
 
 
