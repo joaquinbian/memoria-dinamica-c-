@@ -19,11 +19,17 @@ Una vez cargados los libros se debe mostrar un menú  con las siguientes opcione
 int getCantidadCargaLibros();
 int getCantidadHorasLibro(string libro);
 int *cargarVectorInt(int tam);
+
 string *cargarLibros(int tam);
+string *cargarVectorStr(int tam);
 string pedirLibro();
+
 void cargarTiempoLectura(string libro, string libros[], int tiemposLectura[], int tam);
-void ordernarLibros(string libros[], int tiempoLectura[]);
+void ordernarLibros(string libros[], int tiempoLectura[], int tam);
 void mostrarLibros(string v[], int tam);
+void mostrarLibrosYTiempoLectura(string libros[], int tiempoLectura[], int tam);
+void copyArrayInt(int v1[], int v2[], int tam);
+void copyArrayStr(string v1[], string v2[], int tam);
 
 int main(){
     int opcion, cantidadLibros, *tiempoLectura = nullptr;
@@ -35,14 +41,16 @@ int main(){
     mostrarLibros(libros, cantidadLibros);
     //punto b
     if(tiempoLectura == nullptr){
-        cout << "no hay vector";
         tiempoLectura = cargarVectorInt(cantidadLibros);
     } 
     libro = pedirLibro();
     cargarTiempoLectura(libro, libros, tiempoLectura, cantidadLibros);
     
+    for(int i = 0; i < cantidadLibros; i++){
+        cout << tiempoLectura[i] << endl;
+    }
     //punto 3
-    ordernarLibros(libros, tiempoLectura);
+    ordernarLibros(libros, tiempoLectura, cantidadLibros);
     
 
 
@@ -71,7 +79,7 @@ string *cargarLibros(int tam){
     }
 
     for(int i = 0; i < tam; i++){
-        cout << "Ingrese el nombre del libro " << i + 1 << ':';
+        cout << "Ingrese el nombre del libro " << i + 1 << ": ";
         cin >> libro;
         v[i] = libro;
     }
@@ -102,7 +110,7 @@ string pedirLibro(){
 
 void mostrarLibros(string libros[], int tam){
     for(int i = 0; i < tam; i++){
-        cout << "Libro " << i + 1 << " -> " << libros[i];
+        cout << "Libro " << i + 1 << " -> " << libros[i] << endl;
     }
 }
 
@@ -117,15 +125,79 @@ int *cargarVectorInt(int tam){
 }
 
 
+
+string *cargarVectorStr(int tam){
+    string *v = nullptr;
+    v = new string[tam];
+    if(v == nullptr){
+        cout << "No se pudo asignar memoria";
+        exit(-1);
+    }
+
+    return v;
+}
+
+
 int getCantidadHorasLibro(string libro){
     int n;
 
     do{
-        cout << "Ingrese las horas de lectura para el libro " << libro;
+        cout << "Ingrese los minutos de lectura para el libro " << libro;
         cin  >> n;
-    } while(n > 0);
+    } while(n < 0);
 
     return n;
 }
 
-void ordernarLibros(string libros[], int tiempoLectura[]){}
+void ordernarLibros(string libros[], int tiempoLectura[], int tam){
+    int *copyTiempoLectura = nullptr;
+    string *copyLibros = nullptr;
+    
+    copyTiempoLectura = cargarVectorInt(tam);
+    copyLibros = cargarVectorStr(tam);
+
+    copyArrayInt(tiempoLectura, copyTiempoLectura, tam);
+    copyArrayStr(libros, copyLibros, tam);
+
+    for(int i = 0; i < tam; i++){
+        for(int j = i + 1; j < tam; j++){
+            int auxInt;
+            string auxStr;
+            if(copyTiempoLectura[i] < copyTiempoLectura[j]){
+                auxInt = copyTiempoLectura[i];
+                auxStr = copyLibros[i];
+                copyTiempoLectura[i] = copyTiempoLectura[j];
+                copyLibros[i] = copyLibros[j];
+                copyTiempoLectura[j] = auxInt;
+                copyLibros[j] = auxStr;
+            }
+        }
+    }
+
+    mostrarLibrosYTiempoLectura(copyLibros, copyTiempoLectura, tam);
+
+
+    delete [] copyTiempoLectura;
+    delete [] copyLibros;
+}
+
+
+void copyArrayInt(int v1[], int v2[], int tam){
+    for(int i = 0; i < tam; i++){
+        v2[i] = v1[i];
+    }
+}
+
+void copyArrayStr(string v1[], string v2[], int tam){
+    for(int i = 0; i < tam; i++){
+        v2[i] = v1[i];
+    }
+}
+
+void mostrarLibrosYTiempoLectura(string libros[], int tiempoLectura[], int tam){
+    for(int i = 0; i < tam; i++){
+        cout << "Libro N" << i+1 << " " << libros[i] << " ";
+        cout << "Tiempo: " << tiempoLectura[i] << " minutos";
+        cout << endl;
+    }
+}
